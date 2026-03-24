@@ -1,0 +1,52 @@
+﻿@model List<ARCRetailPOE.Models.CartItem>
+
+@{
+    ViewData["Title"] = "My Cart";
+}
+
+<h2>🛒 My Shopping Cart</h2>
+<hr />
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Your cart is empty.</div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Product</th>
+                <th>Price (R)</th>
+                <th>Quantity</th>
+                <th>Total (R)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Price</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Total</td>
+                    <td>
+                        <a asp-action="Remove" asp-route-id="@item.ProductId" class="btn btn-sm btn-danger">Remove</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="text-end mt-3">
+        <form asp-action="Checkout" method="post">
+            <button type="submit" class="btn btn-success btn-lg">Checkout</button>
+        </form>
+    </div>
+}

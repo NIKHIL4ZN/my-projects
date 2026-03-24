@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="text-center">
+    <h2>Welcome to the Monthly Claim System</h2>
+    <p>Select an option below based on your role:</p>
+</div>
+
+<div class="row text-center mt-4">
+    <div class="col-md-4">
+        <a asp-controller="Lecturer" asp-action="SubmitClaim" class="btn btn-primary w-100">
+            Submit Claim (Lecturer)
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a asp-controller="Coordinator" asp-action="VerifyClaims" class="btn btn-warning w-100">
+            Verify Claims (Coordinator)
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a asp-controller="Manager" asp-action="ApproveClaims" class="btn btn-success w-100">
+            Approve Claims (Manager)
+        </a>
+    </div>
+</div>

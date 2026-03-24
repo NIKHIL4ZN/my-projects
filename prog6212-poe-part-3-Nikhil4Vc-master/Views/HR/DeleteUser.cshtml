@@ -1,0 +1,25 @@
+﻿@model IdentityUser
+@using Microsoft.AspNetCore.Http
+@if (Context.Session.GetString("UserEmail") == null)
+{
+    <script>
+        window.location.href = '/Identity/Account/Login';
+    </script>
+}
+
+<!--HR view to delete user account-->
+
+<h2>Confirm Delete</h2>
+
+<div class="alert alert-danger">
+    <strong>Warning!</strong> You are about to delete this user. This action cannot be undone.
+</div>
+
+<p><strong>Email:</strong> @Model.Email</p>
+
+<form method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+
+    <button type="submit" class="btn btn-danger">Yes, Delete User</button>
+    <a asp-action="ManageUsers" class="btn btn-secondary">Cancel</a>
+</form>

@@ -1,0 +1,109 @@
+﻿@model IEnumerable<MonthlyClaims_System.Models.Claim>
+@using System.IO
+@using Microsoft.AspNetCore.Http
+@if (Context.Session.GetString("UserEmail") == null)
+{
+    <script>
+        window.location.href = '/Identity/Account/Login';
+    </script>
+}
+
+<!--Manager view to approve claims-->
+
+@{
+    ViewData["Title"] = "Approve Claims (Manager)";
+}
+
+<h3 class="mb-3">@ViewData["Title"]</h3>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<a asp-action="DownloadManagerReport" class="btn btn-success mb-3">
+    Download CSV Report
+</a>
+
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Claim ID</th>
+            <th>Lecturer</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Document</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claim in Model)
+        {
+            string statusColor = claim.Status switch
+            {
+                "Pending" => "bg-warning text-dark",
+                "Verified" => "bg-info text-dark",
+                "Approved" => "bg-success",
+                "Rejected" => "bg-danger",
+                _ => "bg-secondary"
+            };
+
+            var blobFile = claim.BlobFileName ?? claim.DocumentPath;
+            var originalFile = claim.OriginalFileName ?? System.IO.Path.GetFileName(claim.DocumentPath ?? "");
+
+            <tr>
+                <td>@claim.ClaimId</td>
+                <td>@claim.LecturerName</td>
+                <td>@claim.ClaimDate.ToShortDateString()</td>
+                <td>@claim.TotalAmount.ToString("N2")</td>
+
+                <td>
+                    @if (!string.IsNullOrEmpty(blobFile))
+                    {
+                        <a asp-controller="File"
+                           asp-action="Download"
+                           asp-route-blobFileName="@blobFile"
+                           asp-route-originalFileName="@originalFile"
+                           class="btn btn-sm btn-outline-primary">
+                            Download
+                        </a>
+                    }
+                    else
+                    {
+                        <span>No file</span>
+                    }
+                </td>
+
+                <td>
+                    <span class="badge @statusColor">@claim.Status</span>
+                </td>
+
+                <td>
+                    <form asp-action="ApproveClaim" asp-route-id="@claim.ClaimId" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-success btn-sm" @(claim.Status == "Approved" ? "disabled" : "")>
+                            Approve
+                        </button>
+                    </form>
+
+                    <form asp-action="RejectClaim" asp-route-id="@claim.ClaimId" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-danger btn-sm" @(claim.Status == "Rejected" ? "disabled" : "")>
+                            Reject
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="mt-4">
+    <a asp-controller="Account" asp-action="Logout" class="btn btn-danger">
+        Logout
+    </a>
+</div>

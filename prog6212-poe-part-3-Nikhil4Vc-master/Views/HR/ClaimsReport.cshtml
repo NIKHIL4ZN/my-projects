@@ -1,0 +1,132 @@
+﻿@model IEnumerable<MonthlyClaims_System.Models.Claim>
+@using Microsoft.AspNetCore.Http
+@if (Context.Session.GetString("UserEmail") == null)
+{
+    <script>
+        window.location.href = '/Identity/Account/Login';
+    </script>
+}
+
+<!--HR Claims report view-->
+
+@{
+    ViewData["Title"] = "Claims Report";
+
+    var totalClaims = Model.Count();
+    var totalAmount = Model.Sum(c => c.TotalAmount);
+    var totalHours = Model.Sum(c => c.HoursWorked);
+}
+
+<h2>Claims Report</h2>
+
+<form method="get" asp-action="ClaimsReport" class="card p-3 mb-3">
+
+    <div class="row g-3">
+
+        <div class="col-md-3">
+            <label>Status</label>
+            <select name="status" class="form-select">
+                <option value="">All</option>
+                <option value="Pending">Pending</option>
+                <option value="Verified">Verified</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label>Lecturer Name</label>
+            <input type="text" name="lecturer" class="form-control" placeholder="e.g. john">
+        </div>
+
+        <div class="col-md-3">
+            <label>Min Amount (R)</label>
+            <input type="number" step="0.01" name="minAmount" class="form-control">
+        </div>
+
+        <div class="col-md-3">
+            <label>Max Amount (R)</label>
+            <input type="number" step="0.01" name="maxAmount" class="form-control">
+        </div>
+
+        <div class="col-md-3">
+            <label>Min Rate (R)</label>
+            <input type="number" step="0.01" name="minRate" class="form-control">
+        </div>
+
+        <div class="col-md-3">
+            <label>Max Rate (R)</label>
+            <input type="number" step="0.01" name="maxRate" class="form-control">
+        </div>
+
+        <div class="col-md-3">
+            <label>From Date</label>
+            <input type="date" name="fromDate" class="form-control">
+        </div>
+
+        <div class="col-md-3">
+            <label>To Date</label>
+            <input type="date" name="toDate" class="form-control">
+        </div>
+
+        <div class="col-md-12 mt-3">
+            <button class="btn btn-primary">Filter</button>
+
+            <a asp-controller="HR" asp-action="HRDashboard" class="btn btn-secondary">Back</a>
+
+            <a asp-action="ExportCsv" class="btn btn-success">Download CSV</a>
+        </div>
+    </div>
+
+</form>
+
+
+<div class="alert alert-info">
+    <strong>Total Claims:</strong> @totalClaims <br />
+    <strong>Total Amount:</strong> R @totalAmount.ToString("N2") <br />
+    <strong>Total Hours:</strong> @totalHours
+</div>
+
+
+<table class="table table-bordered table-striped mt-3">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Lecturer</th>
+            <th>Date</th>
+            <th>Hours</th>
+            <th>Rate</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Document</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.ClaimId</td>
+                <td>@c.LecturerName</td>
+                <td>@c.ClaimDate.ToShortDateString()</td>
+                <td>@c.HoursWorked</td>
+                <td>R @c.HourlyRate.ToString("N2")</td>
+                <td>R @c.TotalAmount.ToString("N2")</td>
+                <td>@c.Status</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(c.DocumentPath))
+                    {
+                        <a href="@c.DocumentPath" target="_blank" class="btn btn-sm btn-info">
+                            View
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="text-muted">No File</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

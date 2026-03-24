@@ -1,0 +1,89 @@
+﻿@model IEnumerable<MonthlyClaims_System.Models.Claim>
+@using System.IO
+@using Microsoft.AspNetCore.Http
+@if (Context.Session.GetString("UserEmail") == null)
+{
+    <script>
+        window.location.href = '/Identity/Account/Login';
+    </script>
+}
+
+
+@{
+    ViewData["Title"] = "Verify Claims";
+}
+
+<!--Coordinator verify claims page-->
+
+<h3>Verify Claims</h3>
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<a asp-action="DownloadCoordinatorReport" class="btn btn-success mb-3">
+    Download CSV Report
+</a>
+
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Claim ID</th>
+            <th>Lecturer</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Document</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claim in Model)
+        {
+            <tr>
+                <td>@claim.ClaimId</td>
+                <td>@claim.LecturerName</td>
+                <td>@claim.ClaimDate.ToShortDateString()</td>
+                <td>R @claim.TotalAmount.ToString("N2")</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(claim.BlobFileName))
+                    {
+                        <a asp-controller="File"
+                           asp-action="Download"
+                           asp-route-blobFileName="@claim.BlobFileName"
+                           asp-route-originalFileName="@claim.OriginalFileName"
+                           class="btn btn-sm btn-outline-primary">
+                            Download
+                        </a>
+                    }
+                    else
+                    {
+                        <span>No file</span>
+                    }
+                </td>
+                <td>@claim.Status</td>
+                <td>
+                    <form asp-action="Verify" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@claim.ClaimId" />
+                        <button type="submit" class="btn btn-success btn-sm">Verify</button>
+                    </form>
+                    <form asp-action="Reject" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@claim.ClaimId" />
+                        <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="mt-4">
+    <a asp-controller="Account" asp-action="Logout" class="btn btn-danger">
+        Logout
+    </a>
+</div>
+

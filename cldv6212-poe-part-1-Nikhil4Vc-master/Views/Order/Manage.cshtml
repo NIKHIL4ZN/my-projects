@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ARCRetailPOE.Models.Order>
+@{
+    ViewData["Title"] = "Manage Orders";
+}
+
+<h2 class="text-center">Manage Customer Orders</h2>
+
+@if (!Model.Any())
+{
+    <p class="text-center text-muted mt-4">No orders found.</p>
+}
+else
+{
+    <table class="table table-bordered mt-4">
+        <thead class="table-dark">
+            <tr>
+                <th>Order ID</th>
+                <th>Customer Email</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Change Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.OrderId</td>
+                    <td>@order.CustomerEmail</td>
+                    <td>@order.ProductName</td>
+                    <td>@order.Quantity</td>
+                    <td>R @order.Total</td>
+                    <td>@order.Status</td>
+                    <td>
+                        <form asp-action="UpdateStatus" method="post" class="d-flex">
+                            <input type="hidden" name="orderId" value="@order.OrderId" />
+                            <select name="newStatus" class="form-select form-select-sm me-2">
+                                <option>Pending</option>
+                                <option>Processing</option>
+                                <option>Completed</option>
+                                <option>Cancelled</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,197 @@
+﻿<Window x:Class="ChatbotWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Loaded="Window_Loaded"
+        Title="Chatbot Application" Height="600" Width="800">
+    <Grid>
+        <TabControl>
+            <!-- Home screen -->
+            <TabItem Header="Chatbot Home">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <!-- Logo row -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- Tips menu row -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- Greetings row -->
+                        <RowDefinition Height="*" />
+                        <!-- Chat history row -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- Input row -->
+                    </Grid.RowDefinitions>
+
+                    <!-- ASCII logo design -->
+                    <TextBlock x:Name="ChatbotLogoText"
+                               Grid.Row="0"
+                               FontFamily="Courier New"
+                               FontSize="14"
+                               Foreground="Green"
+                               TextAlignment="Center"
+                               TextWrapping="Wrap"
+                               Width="780"
+                               Text="[ CYBERSECURITY CHATBOT SECURE ]  
+────────────────────  
+(●_●)  ENCRYPTION ACTIVE  
+────────────────────"/>
+
+                    <!-- Chatbot tips menu  -->
+                    <TextBlock x:Name="ChatbotTipsText"
+                               Grid.Row="1"
+                               FontFamily="Consolas"
+                               FontSize="10"
+                               Foreground="blue"
+                               Background="white"
+                               Padding="5"
+                               TextAlignment="Left"
+                               TextWrapping="Wrap"
+                               Width="780"
+                               Height="150">
+                        <Run Text="💡 Cybersecurity Chatbot Tips 💡"/><LineBreak/><LineBreak/>
+<Run Text="🔹 Ask me about cybersecurity topics! Example questions:"/><LineBreak/><LineBreak/>
+<Run Text="• What is your purpose?                      • What are different types of cybersecurity threats?          •Start quiz / Stop quiz"/><LineBreak/><LineBreak/>
+<Run Text="• How do I create a strong password?         • What is phishing?                                           •Remind me [Task] in [x] days"/><LineBreak/><LineBreak/>
+<Run Text="• What is phishing?                          • Give me browsing safety tips."/><LineBreak/><LineBreak/>
+<Run Text="• How do I avoid cybersecurity risks?        • What are different types of cybersecurity threats?"/><LineBreak/><LineBreak/>
+                    </TextBlock>
+
+                    <!-- Greeting Message -->
+                    <TextBlock x:Name="ChatbotGreetingText"
+                               Grid.Row="2"
+                               FontFamily="Consolas"
+                               FontSize="12"
+                               Foreground="Green"
+                               Background="White"
+                               Padding="10"
+                               TextAlignment="Left"
+                               TextWrapping="Wrap"
+                               Width="780"
+                               Height="30"/>
+
+                    <!-- Chat history display -->
+                    <ListBox x:Name="ChatHistoryListBox" Grid.Row="3"
+                             Margin="0,0,0,10"
+                             FontFamily="Consolas"
+                             FontSize="14"/>
+
+                    <!-- Input area -->
+                    <StackPanel Grid.Row="4" Orientation="Horizontal">
+                        <TextBox x:Name="ChatInputTextBox" Width="600" Height="30"/>
+                        <Button x:Name="SendButton" Content="Send" Width="75" Margin="10,0,0,0" Click="SendButton_Click"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Task manager screen -->
+            <TabItem Header="Task Manager">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <!-- Title -->
+                        <RowDefinition Height="*" />
+                        <!-- Reminder list -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- Clear reminders Button -->
+                    </Grid.RowDefinitions>
+
+                    <!-- Title -->
+                    <TextBlock Text="🔔 Scheduled Reminders"
+                   FontSize="18"
+                   FontWeight="Bold"
+                   Foreground="DarkBlue"
+                   Grid.Row="0"/>
+
+                    <!-- ListBox for storing reminders history-->
+                    <ListBox x:Name="RemindersListBox"
+                 Grid.Row="1"
+                 FontSize="14"
+                 Background="White"
+                 BorderThickness="1"
+                 BorderBrush="Black"/>
+
+                    <!-- Clear button for removing reminder history -->
+                    <Button x:Name="ClearRemindersButton"
+                Content="Clear History"
+                Grid.Row="2"
+                Width="150"
+                Height="40"
+                Click="ClearRemindersButton_Click"/>
+                </Grid>
+            </TabItem>
+
+            <!-- Mini-game quiz screen -->
+            <TabItem Header="Mini-Game Quiz Scores">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <!-- Title -->
+                        <RowDefinition Height="*" />
+                        <!-- Scores list -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- Clear scores button -->
+                    </Grid.RowDefinitions>
+
+                    <!-- Title -->
+                    <TextBlock Text="📊 Mini-Game Scores History"
+                   FontSize="18"
+                   FontWeight="Bold"
+                   Foreground="DarkBlue"
+                   Grid.Row="0"/>
+
+                    <!-- ListBox for storing scores -->
+                    <ListBox x:Name="ScoresListBox"
+                 Grid.Row="1"
+                 FontSize="14"
+                 Background="White"
+                 BorderThickness="1"
+                 BorderBrush="Black"/>
+
+                    <!-- Clear scores button -->
+                    <Button x:Name="ClearScoresButton"
+                Content="Clear Scores"
+                Grid.Row="2"
+                Width="150"
+                Height="40"
+                Click="ClearScoresButton_Click"/>
+                </Grid>
+            </TabItem>
+
+            <!-- Activity log screen -->
+            <TabItem Header="Activity Log">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <!-- Title -->
+                        <RowDefinition Height="*" />
+                        <!-- Log list -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- Clear log button -->
+                    </Grid.RowDefinitions>
+
+                    <!-- Title -->
+                    <TextBlock Text="📜 Chatbot Activity Log"
+                   FontSize="18"
+                   FontWeight="Bold"
+                   Foreground="DarkBlue"
+                   Grid.Row="0"/>
+
+                    <!-- ListBox for storing activity Log -->
+                    <ListBox x:Name="ActivityLogListBox"
+                 Grid.Row="1"
+                 FontSize="14"
+                 Background="White"
+                 BorderThickness="1"
+                 BorderBrush="Black"/>
+
+                    <!-- Clear button for removing activity history -->
+                    <Button x:Name="ClearLogButton"
+                Content="Clear Log History"
+                Grid.Row="2"
+                Width="150"
+                Height="40"
+                Click="ClearLogButton_Click"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

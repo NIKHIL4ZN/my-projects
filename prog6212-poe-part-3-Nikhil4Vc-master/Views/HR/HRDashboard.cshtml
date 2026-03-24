@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "HR Dashboard";
+}
+@using Microsoft.AspNetCore.Http
+@if (Context.Session.GetString("UserEmail") == null)
+{
+    <script>
+        window.location.href = '/Identity/Account/Login';
+    </script>
+}
+
+<!--HR homescreen view-->
+
+<h2 class="mb-4">HR Dashboard</h2>
+
+<div class="list-group">
+
+    <a asp-controller="HR" asp-action="ClaimsReport" class="list-group-item list-group-item-action">
+        📊 Generate Claims Report
+    </a>
+
+    <a asp-controller="HR" asp-action="ManageUsers" class="list-group-item list-group-item-action">
+        👤 Manage User Accounts
+    </a>
+
+    <a asp-controller="HR" asp-action="ManageRate" class="list-group-item list-group-item-action">
+        ⚙ Manage Lecturer Hourly Rate
+    </a>
+
+    <a asp-controller="Account" asp-action="Logout" class="list-group-item list-group-item-action">
+        ← Logout
+    </a>
+</div>
