@@ -1,0 +1,38 @@
+# Android / Gradle
+*.iml
+.gradle/
+/local.properties
+.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+*.apk
+*.aab
+
+# Android app module
+app/build/
+app/release/
+
+# Firebase / Google
+google-services.json
+
+# Backend
+backend/build/
+backend/serviceAccountKey.json
+backend/familylink-data*.mv.db
+backend/familylink-data*.trace.db
+
+# Misc
+*.log
+
+# Release signing (Part 3) - NEVER commit these
+keystore.properties
+*.jks
+*.keystore
+keystore/
+
+# Local build helpers
+*.apk
+*.aab

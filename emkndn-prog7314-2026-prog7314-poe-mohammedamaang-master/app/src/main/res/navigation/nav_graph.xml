@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mapFragment">
+
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.familylinklive.app.ui.map.MapFragment"
+        android:label="Map" />
+
+    <fragment
+        android:id="@+id/contactsFragment"
+        android:name="com.familylinklive.app.ui.contacts.ContactsFragment"
+        android:label="Contacts">
+        <action
+            android:id="@+id/action_contacts_to_chatThread"
+            app:destination="@id/chatThreadFragment" />
+    </fragment>
+
+    <!--
+      Not a bottom-nav destination - reached from ContactsFragment via the
+      action above. contactId/contactName are read as plain Bundle args
+      (getArguments()) rather than generated Safe Args classes.
+    -->
+    <fragment
+        android:id="@+id/chatThreadFragment"
+        android:name="com.familylinklive.app.ui.chat.ChatThreadFragment"
+        android:label="Chat">
+        <argument android:name="contactId" app:argType="string" />
+        <argument android:name="contactName" app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/placesFragment"
+        android:name="com.familylinklive.app.ui.places.PlacesFragment"
+        android:label="Places" />
+
+    <fragment
+        android:id="@+id/activityFragment"
+        android:name="com.familylinklive.app.ui.activity.ActivityFragment"
+        android:label="Activity" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.familylinklive.app.ui.settings.SettingsFragment"
+        android:label="Settings" />
+
+</navigation>

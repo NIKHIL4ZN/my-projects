@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand_primary">#14213D</color>
+    <color name="brand_accent">#1D4ED8</color>
+    <color name="brand_danger">#DC2626</color>
+    <color name="brand_success">#16A34A</color>
+    <color name="surface_muted">#F4F6FB</color>
+    <color name="text_secondary">#5B6577</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="brand_warning">#B45309</color>
+    <color name="ic_launcher_background">#14213D</color>
+</resources>

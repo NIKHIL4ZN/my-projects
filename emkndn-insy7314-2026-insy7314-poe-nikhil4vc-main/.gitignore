@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Certificates / private keys
+backend/certificates/*.key
+backend/certificates/*.pem
+backend/certificates/*.crt
+
+# Build output
+frontend/dist/
+dist/
+
+# Test coverage
+coverage/
+
+# Logs
+npm-debug.log*
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Legacy Part 1 local data
+backend/data/users.json
+
+# Optional editor settings
+.vscode/
+
+# Playwright generated files
+frontend/playwright-report/
+frontend/test-results/

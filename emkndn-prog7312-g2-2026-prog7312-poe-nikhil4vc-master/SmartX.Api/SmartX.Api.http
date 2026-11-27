@@ -1,0 +1,362 @@
+@SmartX.Api_HostAddress = http://localhost:5229
+
+### Register an environmental sensor
+
+POST {{SmartX.Api_HostAddress}}/api/sensors
+Content-Type: application/json
+
+{
+  "name": "Greenhouse Moisture Sensor A",
+  "macAddress": "A4:CF:12:9B:20:01",
+  "deploymentLocation": "Hydroponics Facility / Zone 1 / Bed A",
+  "category": 1,
+  "dataType": 1
+}
+
+### Get all registered sensors
+
+GET {{SmartX.Api_HostAddress}}/api/sensors
+Accept: application/json
+
+### Test duplicate MAC-address protection
+
+POST {{SmartX.Api_HostAddress}}/api/sensors
+Content-Type: application/json
+
+{
+  "name": "Duplicate Moisture Sensor",
+  "macAddress": "A4:CF:12:9B:20:01",
+  "deploymentLocation": "Hydroponics Facility / Zone 2",
+  "category": 1,
+  "dataType": 1
+}
+
+### Test invalid MAC-address validation
+
+POST {{SmartX.Api_HostAddress}}/api/sensors
+Content-Type: application/json
+
+{
+  "name": "Invalid Sensor",
+  "macAddress": "NOT-A-MAC",
+  "deploymentLocation": "Utility Room",
+  "category": 2,
+  "dataType": 2
+}
+
+### Ingest floating-point moisture telemetry
+
+POST {{SmartX.Api_HostAddress}}/api/telemetry/float
+Content-Type: application/json
+
+{
+  "sensorId": "dfddd6d1-cc89-47c7-9785-9db4009c6085",
+  "value": 42.7,
+  "unit": "%",
+  "sequenceNumber": 1
+}
+
+### Test duplicate packet prevention
+
+POST {{SmartX.Api_HostAddress}}/api/telemetry/float
+Content-Type: application/json
+
+{
+  "sensorId": "dfddd6d1-cc89-47c7-9785-9db4009c6085",
+  "value": 43.1,
+  "unit": "%",
+  "sequenceNumber": 1
+}
+
+### Test incorrect payload type
+
+POST {{SmartX.Api_HostAddress}}/api/telemetry/integer
+Content-Type: application/json
+
+{
+  "sensorId": "dfddd6d1-cc89-47c7-9785-9db4009c6085",
+  "value": 850,
+  "unit": "W",
+  "sequenceNumber": 2
+}
+
+ ### Retrieve sensor telemetry history
+
+GET {{SmartX.Api_HostAddress}}/api/telemetry/sensor/dfddd6d1-cc89-47c7-9785-9db4009c6085?limit=100
+Accept: application/json
+
+  ### Ingest jagged-array moisture telemetry batches
+
+POST {{SmartX.Api_HostAddress}}/api/telemetry/float/batch
+Content-Type: application/json
+
+{
+  "sensorId": "dfddd6d1-cc89-47c7-9785-9db4009c6085",
+  "batches": [
+    [42.5, 42.1, 41.8],
+    [41.4, 40.9],
+    [40.6, 40.2, 39.8]
+  ],
+  "unit": "%",
+  "startingSequenceNumber": 2,
+  "intervalSeconds": 5
+}
+
+### Retrieve the updated telemetry history
+
+GET {{SmartX.Api_HostAddress}}/api/telemetry/sensor/dfddd6d1-cc89-47c7-9785-9db4009c6085?limit=20
+Accept: application/json
+
+  ### Validate a safe recursive deployment tree
+
+POST {{SmartX.Api_HostAddress}}/api/deployments/validate
+Content-Type: application/json
+
+{
+  "name": "Durban Hydroponics Facility",
+  "nodeType": 1,
+  "children": [
+    {
+      "name": "Growing Zone 1",
+      "nodeType": 2,
+      "children": [
+        {
+          "name": "Sub-Zone B",
+          "nodeType": 3,
+          "children": [
+            {
+              "name": "ESP32 Gateway 1",
+              "nodeType": 4,
+              "children": [
+                {
+                  "name": "Moisture Sensor A",
+                  "nodeType": 5,
+                  "sensorMacAddress": "A4:CF:12:9B:20:01",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+        ### Reject an unsafe recursive deployment tree
+
+POST {{SmartX.Api_HostAddress}}/api/deployments/validate
+Content-Type: application/json
+
+{
+  "name": "Durban Hydroponics Facility",
+  "nodeType": 1,
+  "children": [
+    {
+      "name": "Unsafe Sensor",
+      "nodeType": 5,
+      "sensorMacAddress": "INVALID-MAC",
+      "children": [
+        {
+          "name": "Nested Sensor",
+          "nodeType": 5,
+          "sensorMacAddress": "11:22:33:44:55:66",
+          "children": []
+        }
+      ]
+    }
+  ]
+}
+
+        ### Upload an encrypted ESP32 configuration file
+
+POST {{SmartX.Api_HostAddress}}/api/sensors/dfddd6d1-cc89-47c7-9785-9db4009c6085/attachments
+Content-Type: multipart/form-data; boundary=SmartXBoundary
+
+--SmartXBoundary
+Content-Disposition: form-data; name="file"; filename="esp32-moisture-config.json"
+Content-Type: application/json
+
+{
+  "deviceModel": "ESP32-WROOM-32",
+  "sampleIntervalSeconds": 5,
+  "moistureThresholdPercent": 20,
+  "gatewayNode": "ESP32 Gateway 1",
+  "firmwareVersion": "1.0.0"
+}
+--SmartXBoundary--
+
+        ### List sensor attachments
+
+GET {{SmartX.Api_HostAddress}}/api/sensors/dfddd6d1-cc89-47c7-9785-9db4009c6085/attachments
+Accept: application/json
+
+### Download and decrypt the attachment
+
+GET {{SmartX.Api_HostAddress}}/api/sensors/dfddd6d1-cc89-47c7-9785-9db4009c6085/attachments/7472a0e9-f01d-4bad-a383-9b440ce43b3f/download
+
+  ### Simulate a critical moisture anomaly
+
+POST {{SmartX.Api_HostAddress}}/api/telemetry/float
+Content-Type: application/json
+
+{
+  "sensorId": "dfddd6d1-cc89-47c7-9785-9db4009c6085",
+  "value": 15.0,
+  "unit": "%",
+  "sequenceNumber": 10
+}
+
+### Retrieve live guided anomaly investigations
+
+GET {{SmartX.Api_HostAddress}}/api/investigations
+Accept: application/json
+
+### Get sensors for command testing
+
+GET {{SmartX.Api_HostAddress}}/api/sensors
+Accept: application/json
+
+### Queue normal status command
+
+POST {{SmartX.Api_HostAddress}}/api/commands
+Content-Type: application/json
+
+{
+  "sensorId": "32a1bd4e-9168-4ada-a917-59703a28def3",
+  "type": 6,
+  "priority": 1,
+  "payload": "Return current device status"
+}
+
+### Queue critical restart command
+
+POST {{SmartX.Api_HostAddress}}/api/commands
+Content-Type: application/json
+
+{
+  "sensorId": "32a1bd4e-9168-4ada-a917-59703a28def3",
+  "type": 1,
+  "priority": 3,
+  "payload": "Emergency restart after telemetry failure"
+}
+
+### Get command queue summary
+
+GET {{SmartX.Api_HostAddress}}/api/commands/summary
+Accept: application/json
+
+### Process first command — should process Critical first
+
+POST {{SmartX.Api_HostAddress}}/api/commands/process-next
+Accept: application/json
+
+### Process second command — should process Normal second
+
+POST {{SmartX.Api_HostAddress}}/api/commands/process-next
+Accept: application/json
+
+### Undo last completed command — should undo Normal command
+
+POST {{SmartX.Api_HostAddress}}/api/commands/undo
+Accept: application/json
+
+### Get command history
+
+GET {{SmartX.Api_HostAddress}}/api/commands
+Accept: application/json
+
+### Get chronological command timeline
+
+GET {{SmartX.Api_HostAddress}}/api/commands/timeline
+Accept: application/json
+
+### Get automatic predictive recommendations
+
+GET {{SmartX.Api_HostAddress}}/api/recommendations
+Accept: application/json
+
+### Analyse first power-related operator query
+
+POST {{SmartX.Api_HostAddress}}/api/recommendations/analyse
+Content-Type: application/json
+
+{
+  "query": "Investigate power spike"
+}
+
+### Analyse second power-related operator query
+
+POST {{SmartX.Api_HostAddress}}/api/recommendations/analyse
+Content-Type: application/json
+
+{
+  "query": "Check power usage"
+}
+
+### Analyse connectivity query
+
+POST {{SmartX.Api_HostAddress}}/api/recommendations/analyse
+Content-Type: application/json
+
+{
+  "query": "Check offline gateway connection"
+}
+
+### Get recent query history
+
+GET {{SmartX.Api_HostAddress}}/api/recommendations/query-history
+Accept: application/json
+
+### Get frequent query patterns
+
+GET {{SmartX.Api_HostAddress}}/api/recommendations/query-patterns
+Accept: application/json
+
+### Query moisture history using the AVL index
+GET {{SmartX.Api_HostAddress}}/api/telemetry/sensor/dfddd6d1-cc89-47c7-9785-9db4009c6085/range?fromUtc=2026-08-01T00:00:00Z&toUtc=2026-10-06T00:00:00Z
+Accept: application/json
+
+### Reject reversed date boundaries
+GET {{SmartX.Api_HostAddress}}/api/telemetry/sensor/dfddd6d1-cc89-47c7-9785-9db4009c6085/range?fromUtc=2026-10-06T00:00:00Z&toUtc=2026-08-01T00:00:00Z
+Accept: application/json
+
+### Reject missing date boundaries
+GET {{SmartX.Api_HostAddress}}/api/telemetry/sensor/dfddd6d1-cc89-47c7-9785-9db4009c6085/range
+Accept: application/json
+
+### Handle an unknown sensor
+GET {{SmartX.Api_HostAddress}}/api/telemetry/sensor/00000000-0000-0000-0000-000000000001/range?fromUtc=2026-08-01T00:00:00Z&toUtc=2026-10-06T00:00:00Z
+Accept: application/json
+
+### Return only readings 3, 4 and 5
+GET {{SmartX.Api_HostAddress}}/api/telemetry/sensor/dfddd6d1-cc89-47c7-9785-9db4009c6085/range?fromUtc=2026-08-30T13:04:30Z&toUtc=2026-08-30T13:04:41Z
+Accept: application/json
+
+### Get the persisted mesh network
+GET {{SmartX.Api_HostAddress}}/api/topology
+Accept: application/json
+
+### BFS connectivity
+GET {{SmartX.Api_HostAddress}}/api/topology/connectivity/810a5286-2ef0-4f33-b6a3-46c7e886ccd7
+Accept: application/json
+
+### Minimum spanning tree
+GET {{SmartX.Api_HostAddress}}/api/topology/mst/810a5286-2ef0-4f33-b6a3-46c7e886ccd7
+Accept: application/json
+
+### Fewest-hop route from Main Utility Power Meter
+GET {{SmartX.Api_HostAddress}}/api/topology/route/810a5286-2ef0-4f33-b6a3-46c7e886ccd7?macAddress=A4:CF:12:9B:20:02
+Accept: application/json
+
+### Route through the minimum spanning tree
+GET {{SmartX.Api_HostAddress}}/api/topology/route/810a5286-2ef0-4f33-b6a3-46c7e886ccd7?macAddress=A4:CF:12:9B:20:02&useSpanningTree=true
+Accept: application/json
+
+### Simulate moisture relay failure and find an alternative route
+GET {{SmartX.Api_HostAddress}}/api/topology/route/810a5286-2ef0-4f33-b6a3-46c7e886ccd7?macAddress=A4:CF:12:9B:20:02&offlineNodeId=948860c8-7325-47ef-be16-375ab4b73950
+Accept: application/json
+
+### Recalculate MST with the moisture relay offline
+GET {{SmartX.Api_HostAddress}}/api/topology/mst/810a5286-2ef0-4f33-b6a3-46c7e886ccd7?offlineNodeId=948860c8-7325-47ef-be16-375ab4b73950
+Accept: application/json

@@ -1,0 +1,8 @@
+# Copy this file to "local.properties" (same folder) and fill in your own values.
+# local.properties is git-ignored -- never commit real secrets.
+
+# Base URL of the FamilyLink Live REST API (must end with a slash).
+#  - Deployed on Render (use this for the demo video and the release APK): https://<your-service>.onrender.com/
+#  - Android Studio emulator talking to a backend on your own machine:      http://10.0.2.2:8080/
+#  - Physical phone on the same Wi-Fi as your machine:                      http://<your-computer-LAN-IP>:8080/
+API_BASE_URL=https://your-service.onrender.com/

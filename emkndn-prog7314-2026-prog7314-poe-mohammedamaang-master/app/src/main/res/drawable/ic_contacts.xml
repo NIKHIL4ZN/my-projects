@@ -1,0 +1,22 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Back person (circle head + rounded shoulders) -->
+    <path
+        android:fillColor="#FF000000"
+        android:fillAlpha="0.55"
+        android:pathData="M16,7m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+    <path
+        android:fillColor="#FF000000"
+        android:fillAlpha="0.55"
+        android:pathData="M10,20 C10,16.5 12.5,14.5 16,14.5 C19.5,14.5 22,16.5 22,20 L22,21 L10,21 Z" />
+    <!-- Front person (circle head + rounded shoulders), drawn on top -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M9,6m-3.4,0a3.4,3.4 0,1 1,6.8 0a3.4,3.4 0,1 1,-6.8 0" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M2,20.5 C2,16.3 5,14 9,14 C13,14 16,16.3 16,20.5 L16,22 L2,22 Z" />
+</vector>

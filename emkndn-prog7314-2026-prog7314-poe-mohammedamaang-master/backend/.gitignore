@@ -1,0 +1,6 @@
+build/
+.gradle/
+serviceAccountKey.json
+familylink-data*.mv.db
+familylink-data*.trace.db
+*.log

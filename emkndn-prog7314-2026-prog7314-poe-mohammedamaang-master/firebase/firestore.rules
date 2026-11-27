@@ -1,0 +1,20 @@
+rules_version = '2';
+
+// Paste into Firebase Console -> Firestore Database -> Rules -> Publish.
+//
+// The backend (Firebase Admin SDK) WRITES alert documents and bypasses these rules.
+// The app only READS, and only its own signed-in user's activity feed.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /users/{uid}/activity/{doc} {
+      allow read:  if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    // Everything else is closed.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

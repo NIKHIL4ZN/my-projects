@@ -1,0 +1,107 @@
+# ==========================================
+# Visual Studio and .NET
+# ==========================================
+
+.vs/
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Test results and coverage
+TestResults/
+coverage/
+coverage.*/
+*.coverage
+*.coveragexml
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+# ASP.NET generated files
+wwwroot/dist/
+
+# ==========================================
+# React, Vite and Node.js
+# ==========================================
+
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Vite cache
+.vite/
+
+# ==========================================
+# Environment variables and secrets
+# ==========================================
+
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Keep safe environment templates
+!.env.example
+
+# Local ASP.NET configuration containing secrets
+appsettings.Local.json
+appsettings.*.Local.json
+
+# Certificates and private keys
+*.pfx
+*.p12
+*.key
+*.pem
+
+# ==========================================
+# Database and local storage
+# ==========================================
+
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+uploads/
+App_Data/
+
+# ==========================================
+# IDE and operating system files
+# ==========================================
+
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==========================================
+# Temporary files
+# ==========================================
+
+*.tmp
+*.temp
+*.bak
+*.swp
+*~

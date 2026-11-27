@@ -1,0 +1,467 @@
+.counter {
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 2px solid transparent;
+  transition: border-color 0.3s;
+  margin-bottom: 24px;
+
+  &:hover {
+    border-color: var(--accent-border);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+.hero {
+  position: relative;
+
+  .base,
+  .framework,
+  .vite {
+    inset-inline: 0;
+    margin: 0 auto;
+  }
+
+  .base {
+    width: 170px;
+    position: relative;
+    z-index: 0;
+  }
+
+  .framework,
+  .vite {
+    position: absolute;
+  }
+
+  .framework {
+    z-index: 1;
+    top: 34px;
+    height: 28px;
+    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg) scale(1.4);
+  }
+
+  .vite {
+    z-index: 0;
+    top: 107px;
+    height: 26px;
+    width: auto;
+    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg) scale(0.8);
+  }
+}
+
+#center {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  place-content: center;
+  place-items: center;
+  flex-grow: 1;
+
+  @media (max-width: 1024px) {
+    padding: 32px 20px 24px;
+    gap: 18px;
+  }
+}
+
+#next-steps {
+  display: flex;
+  border-top: 1px solid var(--border);
+  text-align: left;
+
+  &>div {
+    flex: 1 1 0;
+    padding: 32px;
+
+    @media (max-width: 1024px) {
+      padding: 24px 20px;
+    }
+  }
+
+  .icon {
+    margin-bottom: 16px;
+    width: 22px;
+    height: 22px;
+  }
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+#docs {
+  border-right: 1px solid var(--border);
+
+  @media (max-width: 1024px) {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+#next-steps ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 8px;
+  margin: 32px 0 0;
+
+  .logo {
+    height: 18px;
+  }
+
+  a {
+    color: var(--text-h);
+    font-size: 16px;
+    border-radius: 6px;
+    background: var(--social-bg);
+    display: flex;
+    padding: 6px 12px;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: box-shadow 0.3s;
+
+    &:hover {
+      box-shadow: var(--shadow);
+    }
+
+    .button-icon {
+      height: 18px;
+      width: 18px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    li {
+      flex: 1 1 calc(50% - 8px);
+    }
+
+    a {
+      width: 100%;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+  }
+}
+
+#spacer {
+  height: 88px;
+  border-top: 1px solid var(--border);
+
+  @media (max-width: 1024px) {
+    height: 48px;
+  }
+}
+
+.ticks {
+  position: relative;
+  width: 100%;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: -4.5px;
+    border: 5px solid transparent;
+  }
+
+  &::before {
+    left: 0;
+    border-left-color: var(--border);
+  }
+
+  &::after {
+    right: 0;
+    border-right-color: var(--border);
+  }
+}
+
+/* Tax estimate */
+
+/* Tax estimate */
+
+.tax-information {
+  margin-top: 24px;
+  margin-bottom: 32px;
+}
+
+.tax-brackets {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.tax-bracket-row {
+  display: grid;
+  grid-template-columns: 220px 40px 80px;
+  align-items: center;
+  column-gap: 20px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  background: var(--accent-bg);
+}
+
+.tax-bracket-row .meta-label {
+  margin: 0;
+}
+
+.tax-separator {
+  text-align: center;
+  opacity: 0.6;
+}
+
+.tax-bracket-row strong {
+  font-size: 1.2rem;
+}
+
+
+/* Financial visualisation */
+
+.financial-visualisation {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.income-breakdown {
+  margin-top: 28px;
+}
+
+.breakdown-bar {
+  display: flex;
+  width: 100%;
+  height: 28px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--border);
+  margin-bottom: 28px;
+}
+
+.breakdown-net,
+.breakdown-tax {
+  height: 100%;
+  transition: width 0.4s ease;
+}
+
+.breakdown-net {
+  background: #22c55e;
+}
+
+.breakdown-tax {
+  background: #f59e0b;
+}
+
+.breakdown-details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.breakdown-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  background: var(--accent-bg);
+}
+
+.breakdown-label {
+  min-width: 210px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.breakdown-value {
+  display: block;
+  margin-left: 16px;
+  font-size: 1.2rem;
+}
+
+.breakdown-indicator {
+  display: block;
+  width: 10px;
+  height: 32px;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+
+.net-indicator {
+  background: #22c55e;
+}
+
+.tax-indicator {
+  background: #f59e0b;
+}
+
+
+/* Transactions */
+
+.transactions-section {
+  margin-top: 48px;
+}
+
+.transactions-header {
+  margin-bottom: 24px;
+}
+
+
+@media (max-width: 768px) {
+  .tax-bracket-row {
+    grid-template-columns: 1fr auto auto;
+    column-gap: 12px;
+  }
+
+  .breakdown-item {
+    flex-wrap: wrap;
+  }
+
+  .breakdown-label {
+    min-width: 160px;
+  }
+
+  .breakdown-value {
+    margin-left: 0;
+  }
+
+  .transactions-section {
+    margin-top: 40px;
+  }
+}
+
+/* Financial Dashboard final layout overrides */
+
+.card.tax-information {
+  margin-top: 24px !important;
+  margin-bottom: 32px !important;
+}
+
+.card.financial-visualisation {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Tax rows */
+
+/* Tax rows */
+
+.card.tax-information .tax-brackets {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.card.tax-information .tax-bracket-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+}
+
+.card.tax-information .tax-bracket-row .meta-label {
+  width: 170px;
+  flex: 0 0 170px;
+  margin: 0;
+}
+
+.card.tax-information .tax-separator {
+  width: auto;
+  margin: 0 4px;
+  text-align: center;
+  opacity: 0.6;
+}
+
+.card.tax-information .tax-bracket-row strong {
+  margin-left: 4px;
+  font-size: 1.1rem;
+}
+
+/* Income breakdown */
+
+.card.financial-visualisation .income-breakdown {
+  margin-top: 28px;
+}
+
+.card.financial-visualisation .breakdown-details {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.card.financial-visualisation .breakdown-item {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+}
+
+.card.financial-visualisation .breakdown-label {
+  display: inline-block;
+  width: 230px;
+  min-width: 230px;
+  margin-left: 16px;
+  margin-right: 32px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.card.financial-visualisation .breakdown-value {
+  display: inline-block;
+  margin: 0;
+  padding-left: 16px;
+  font-size: 1.2rem;
+}
+
+/* Transactions */
+
+.transactions-section {
+  display: block;
+  width: 100%;
+  padding-top: 48px !important;
+  margin-top: 0 !important;
+}
+
+.transactions-section .transactions-header {
+  margin: 0 0 24px 0 !important;
+}
+
+@media (max-width: 768px) {
+  .card.tax-information .tax-bracket-row .meta-label {
+    width: auto;
+    flex: 1;
+  }
+
+  .card.financial-visualisation .breakdown-item {
+    flex-wrap: wrap;
+  }
+
+  .card.financial-visualisation .breakdown-label {
+    width: auto;
+    min-width: 160px;
+    margin-right: 16px;
+  }
+
+  .card.financial-visualisation .breakdown-value {
+    padding-left: 0;
+  }
+
+  .transactions-section {
+    padding-top: 40px !important;
+  }
+}
